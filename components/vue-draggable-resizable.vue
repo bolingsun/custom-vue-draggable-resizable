@@ -778,16 +778,22 @@ export default {
       const axis = this.axis
       const grid = this.grid
       const mouseClickPosition = this.mouseClickPosition
-      const tmpDeltaX =
+      let tmpDeltaX =
         axis && axis !== 'y'
           ? mouseClickPosition.mouseX -
             (e.touches ? e.touches[0].pageX : e.pageX)
           : 0
-      const tmpDeltaY =
+      let tmpDeltaY =
         axis && axis !== 'x'
           ? mouseClickPosition.mouseY -
             (e.touches ? e.touches[0].pageY : e.pageY)
           : 0
+      
+      // fix 根据父div外框缩放比例来扩大移动步长值, 解决缩小parent情况下，感觉dragging移动不动的bug
+      // parentScale范围0-1，由父级组件传递过来
+      tmpDeltaX = Math.round(tmpDeltaX / this.parentScale)
+      tmpDeltaY = Math.round(tmpDeltaY / this.parentScale)
+      
       const [deltaX, deltaY] = this.snapToGrid(grid, tmpDeltaX, tmpDeltaY)
       if (!deltaX && !deltaY) return
       this.rawTop = mouseClickPosition.top - deltaY
@@ -805,10 +811,12 @@ export default {
         mouseClickPosition.mouseX - (e.touches ? e.touches[0].pageX : e.pageX)
       let tmpDeltaY =
         mouseClickPosition.mouseY - (e.touches ? e.touches[0].pageY : e.pageY)
+        
       // fix 根据父div外框缩放比例来扩大移动步长值, 解决缩小parent情况下，感觉拖拽不动的bug
       // parentScale范围0-1，由父级组件传递过来
       tmpDeltaX = Math.round(tmpDeltaX / this.parentScale)
       tmpDeltaY = Math.round(tmpDeltaY / this.parentScale)
+      
       const [deltaX, deltaY] = this.snapToGrid(this.grid, tmpDeltaX, tmpDeltaY)
       if (!deltaX && !deltaY) return
       if (handle.includes('b')) {
