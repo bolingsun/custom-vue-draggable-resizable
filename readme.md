@@ -11,3 +11,7 @@
 2. snap开启模块对齐，在snapTolerance设置的距离内，有吸附效果
 3. snapTolerance: 模块对齐距离触发值
 4. parentScale，传递父容器的缩放比率
+
+## 参考链接
+1. https://mauricius.github.io/vue-draggable-resizable/?path=/story/basic--basic-component 官方在线示例
+2. https://www.npmjs.com/package/vue-draggable-resizable#live-playground npm官方地址
